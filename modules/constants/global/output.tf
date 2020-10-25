@@ -8,3 +8,9 @@ output "subscription_mapping" {
     prd = "production"
   }
 }
+
+output "tags" {
+  value = {
+    project = "lab3"
+  }
+}
