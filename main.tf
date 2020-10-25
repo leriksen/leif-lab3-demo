@@ -36,11 +36,35 @@ module "subscription" {
   subscription = module.globals.subscription_mapping[var.TERRAFORM_WORKSPACE]
 }
 
+module "environment" {
+  source = "./modules/constants/environment"
+  environment = var.TERRAFORM_WORKSPACE
+}
+
+######### LOCALS #########
+locals {
+  tags = merge(
+    module.globals.tags,
+    {
+      environment = var.TERRAFORM_WORKSPACE
+    }
+  )
+}
 ######### RESOURCES #########
-//resource "azurerm_resource_group" "rg" {
-//  name     = "lab3-demo-${var.TERRAFORM_WORKSPACE}"
-//  location = module.subscription.location
-//}
+resource "azurerm_resource_group" "rg" {
+  name     = "lab3-demo-${var.TERRAFORM_WORKSPACE}"
+  location = module.subscription.location
+  tags     = local.tags
+}
+
+resource "azurerm_key_vault" "akv" {
+  location            = module.subscription.location
+  name                = "akv-lab3-${var.TERRAFORM_WORKSPACE}"
+  resource_group_name = azurerm_resource_group.rg.name
+  sku_name            = module.environment.key_vault_sku
+  tenant_id           = module.globals.tenant_id
+  tags                = local.tags
+}
 
 ######### OUTPUTS #########
 output "workspace" {
