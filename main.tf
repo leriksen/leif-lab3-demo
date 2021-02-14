@@ -1,6 +1,6 @@
 ######### TERRAFORM BACKEND ##########
 terraform {
-  required_version = ">= 0.13, < 0.14"
+  required_version = ">= 0.14"
   required_providers {
     azurerm = {
       source = "hashicorp/azurerm"
@@ -20,7 +20,6 @@ terraform {
 
 ######### PROVIDERS ##########
 provider "azurerm" {
-  version         = "~>2.0"
   tenant_id       = module.globals.tenant_id
   subscription_id = module.subscription.subscription_id
   features {}
@@ -67,6 +66,10 @@ resource "azurerm_key_vault" "akv" {
 }
 
 ######### OUTPUTS #########
-output "workspace" {
+output "TERRAFORM_WORKSPACE" {
   value = var.TERRAFORM_WORKSPACE
+}
+
+output "tf_workspace" {
+  value = terraform.workspace
 }

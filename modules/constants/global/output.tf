@@ -5,6 +5,7 @@ output "tenant_id" {
 output "subscription_mapping" {
   value = {
     dev = "staging"
+    tst = "staging"
     prd = "production"
   }
 }
