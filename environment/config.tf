@@ -4,11 +4,11 @@ module "globals" {
 
 module "subscription" {
   source       = "../config/subscription"
-  subscription = module.globals.subscription_mapping[var.TF_WORKSPACE]
+  subscription = module.globals.subscription_mapping[var.WORKSPACE]
 }
 
 module "environment" {
   source = "../config/environment"
-  environment = var.TF_WORKSPACE
+  environment = var.WORKSPACE
 }
 
